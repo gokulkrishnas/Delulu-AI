@@ -1,8 +1,9 @@
 function sendMessage(event) {
+    
     if (event.key === 'Enter') {
         sendButton();
     }
-    return false;
+    return True;
 }
 
 function sendButton() {
