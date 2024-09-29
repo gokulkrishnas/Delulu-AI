@@ -18,11 +18,13 @@
     </nav>
 
     <div class="chat-container">
+        <!-- Chatbox to display messages -->
         <div id="chatbox" class="chatbox">
             <div class="message bot-message">
                 Hello! I'm ChatGPT clone. How can I help you today?
             </div>
         </div>
+        <!-- Input container for user interaction -->
         <div class="input-container">
             <input type="text" id="userInput" placeholder="Type a message..." onkeypress="return sendMessage(event)">
             <button onclick="sendButton()">Send</button>
@@ -33,6 +35,7 @@
         <p>&copy; 2024 ChatGPT Clone. All rights reserved.</p>
     </footer>
 
+    <!-- Linking to the script.js file which will handle the chat logic -->
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,11 +1,12 @@
+// Function to handle user pressing "Enter" to send a message
 function sendMessage(event) {
-    
     if (event.key === 'Enter') {
         sendButton();
     }
-    return True;
+    return true;
 }
 
+// Function to handle button click
 function sendButton() {
     const userInput = document.getElementById('userInput').value.trim();
     
@@ -13,13 +14,12 @@ function sendButton() {
         addMessage(userInput, 'user-message');
         document.getElementById('userInput').value = ''; // Clear input field
 
-        // Mock response after a short delay to simulate real-time response
-        setTimeout(function() {
-            getBotResponse(userInput);
-        }, 500);
+        // Send user input to backend for Groq API response
+        sendToBackend(userInput);
     }
 }
 
+// Function to display messages in the chatbox
 function addMessage(text, className) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', className);
@@ -30,23 +30,22 @@ function addMessage(text, className) {
     chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll to bottom
 }
 
-function getBotResponse(userInput) {
-    // Here we simulate a bot response
-    let botResponse = '';
-
-    switch (userInput.toLowerCase()) {
-        case 'hello':
-            botResponse = 'Hello! How can I assist you?';
-            break;
-        case 'how are you?':
-            botResponse = 'I’m just a bot, but I’m doing great! How about you?';
-            break;
-        case 'bye':
-            botResponse = 'Goodbye! Have a great day!';
-            break;
-        default:
-            botResponse = 'Sorry, I didn’t understand that. Can you rephrase?';
-    }
-
-    addMessage(botResponse, 'bot-message');
+// Function to handle the communication with the backend
+function sendToBackend(userInput) {
+    fetch('/chat', { // assuming your backend route is /chat
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userInput }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        const botResponse = data.response; // Expecting the API response here
+        addMessage(botResponse, 'bot-message');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        addMessage('Error: Could not reach the server', 'bot-message');
+    });
 }
